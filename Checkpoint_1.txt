@@ -1,0 +1,73 @@
+> What data types do each of these values represent?
+
+"A Clockwork Orange" - string
+42 - integer
+09/02/1945 - date
+98.7 - float
+$15.99 - currency
+
+> Explain when a database would be used. Explain when a text file would be used.
+ 
+ A. When data needs to be accessed across multiple applications in an enterprise environment by simultaneous users, a database is ideal. A text file is ideal for a single user application for data that is local and will only be used for intermediate data states.
+ 
+
+> Describe one difference between SQL and other programming languages.
+
+A. SQL - Structured Query Language is a declarative language where the user provides inputs to the program and the database provides it output by determining the best path via it's internal workings. Programming languages, in contrast, follow a set of rules that are provided by programmers in the form of an algorithm.
+
+
+> In your own words, explain how the pieces of a database system fit together at a high level.
+
+A. Databases act as repository of data that is stored across a number of tables in a relational manner or documents in a non-relational setup. The end result is the same as it is a resting place for all data to be stored that is then accessed by applications via business logic for mobile/web or desktop applications. The data is asked for by the business logic, that data is then arranged in a manner that it is converted to meaningful information for the user who requested it and is then presented to the user on the front end.
+
+> Explain the meaning of table, row, column, and value.
+
+table - a collection of records
+row - a single record in a table 
+column - a field in a table 
+value - the data stored in a field 
+
+
+> List three data types that can be used in a table.
+
+A. string, date and integer 
+
+Given this payments table, provide an English description of the following queries and include their results:
+
+	// Get me all dates and amounts from payments 
+     SELECT date, amount
+     FROM payments;
+
+	 // Get me all amounts from payments that are more than 500 
+     SELECT amount
+     FROM payments
+     WHERE amount > 500;
+
+	 // Get me everything from payments for the payee Mega Foods
+     SELECT *
+     FROM payments
+     WHERE payee = 'Mega Foods';
+	 
+Given this users table, write SQL queries using the following criteria and include the output:
+
+The email and sign-up date for the user named DeAndre Data.
+/*
+	SELECT email, date	
+	FROM users 
+	WHERE user = 'DeAndre Data';
+*/
+
+The user ID for the user with email 'aleesia.algorithm@uw.edu'.
+/*
+	SELECT userId
+	FROM users 
+	WHERE email = 'aleesia.algorithm@uw.edu';
+*/
+
+
+All the columns for the user ID equal to 4.
+/*
+	SELECT *
+	FROM users 
+	WHERE userId = 4;
+*/
