@@ -53,10 +53,7 @@ Given this payments table, provide an English description of the following queri
 	 //RESULT 
 	amount			
 	1500.00	
-	37.00	
-	124.93	
-	54.72
-
+	
 	 // Get me everything from payments for the payee Mega Foods
      SELECT *
      FROM payments
