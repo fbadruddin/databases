@@ -1,0 +1,192 @@
+> List the commands for adding, updating, and deleting data.
+
+A. Adding data 
+	INSERT INTO Patients (Id, First, Last, Dob)
+	VALUES (1, 'Farooq', 'Badruddin', '1974-04-29')
+	
+	Updating data
+		UPDATE Patients 
+		SET Dob = '0974-04-01' 
+		WHERE Id = 1
+	
+	Deleting data
+		DELETE FROM Patients 
+		WHERE Id = 1
+
+> Explain the structure for each type of command.
+	Insert command 
+		INSERT INTO TableName (column1, column2.....column n) //in our  case the first type is of int, second type is string, third type is string and the last type is of date
+		VALUES (value1, value2....value n) // id, string, string, date
+	
+	Update command 
+		UPDATE TableName 
+		SET column1 = value1, column2 = value2....column n = value n
+		WHERE SomeColumn = SomeValue // WHERE is a filter operation, we can chain multiple filters by using the AND keyword e.g WHERE First = 'Farooq' AND Last='Badruddin'
+	
+	Delete Command
+		DELETE From TableName
+		WHERE SomeColumn = SomeValue // this will remove a row from the database. Like the Update command, we can have multiple filters using the AND keyword
+		
+
+> What are some of the data types that can be used in tables? Give a real-world example of each type.
+
+A. Real world example - SQL Server
+	VARCHAR - for string datatypes
+	INT - for integers
+	BIT - for boolean, essentially 0 or 1
+	DATE - Date datatypes
+	DATETIME - Date AND Time
+	DECIMAL - floating point datatypes 
+	
+
+> Decide how to create a new table to hold a list of people invited to a wedding dinner. The table needs to have first and last names, whether they sent in their RSVP, the number of guests they are bringing, and the number of meals (1 for adults and 1/2 for children).
+	A. 
+	
+	TableName = Guests
+	
+	Columns
+		id = integer
+		first = text
+		last = text
+		rsvp = boolean
+		companion = smallInt
+		meals = real
+		
+> Which data type would you use to store each of the following pieces of information? 
+	A. Please see information above
+
+> First and last name.
+	A. Please see information above
+	
+> Whether they sent in their RSVP.
+	A. Please see information above
+	
+> Number of guests.
+	A. Please see information above
+	
+> Number of meals.
+	A. Please see information above
+	
+> Write a command that creates the table to track the wedding dinner.
+	A. CREATE TABLE Guests
+		(
+			id integer,
+			first text,
+			last text,
+			rsvp boolean,
+			companion smallInt,
+			meals real
+		);
+	
+> Write a command that adds a column to track whether the guest sent a thank you card.
+
+	A. ALTER TABLE Guests 
+		ADD COLUMN sentThankYou boolean
+
+> You have decided to move the data about the meals to another table, so write a command to remove the column storing the number meals from the wedding table.
+	A. ALTER TABLE Guests 
+		DROP COLUMN meals;
+	
+> The guests will need a place to sit at the reception, so write a command that adds a column for table number.
+	A.  ALTER TABLE Guests 
+		ADD COLUMN tableNumber smallInt
+		
+> The wedding is over and we do not need to keep this information, so write a command that deletes the table numbers from the database.
+	A. ALTER TABLE Guests 
+		DROP COLUMN tableNumber;
+		
+> Write a command to create a new table to hold the books in a library with the columns ISBN, title, author, genre, publishing date, number of copies, and available copies.
+	A. CREATE TABLE books
+		(
+			ISBN text,
+			title text,
+			author text,
+			genre text,
+			publishDate Date,
+			copies integer,
+			availableCopies integer
+		);
+		
+> Find three books and add their information to the table.
+
+	A. 
+	INSERT INTO Books(ISBN, title, author, genre, publishDate, copies, availableCopies)
+	VALUES ('978-1430229674', 'Pro .NET 4 Parallel Programming in C# (Expert's Voice in .NET)', 'Adam Freeman', 'Computer Science', '2010-04-29', 25, 24);
+	
+	INSERT INTO Books(ISBN, title, author, genre, publishDate, copies, availableCopies)
+	VALUES ('978-1849686228', 'Windows Presentation Foundation 4.5 Cookbook', 'Pavel Yosifovich', 'Computer Science', '2012-09-25', 10, 2);
+	
+	INSERT INTO Books(ISBN, title, author, genre, publishDate, copies, availableCopies)
+	VALUES ('978-1617291340', 'C# In Depth 3rd Edition', 'Jon Skeet', 'Computer Science', '2013-19-30', 21, 6);
+	
+> Someone has just checked out one of the books. Change the number of available copies to 1 fewer.
+	A. 
+	UPDATE Books 
+	SET availableCopies = availableCopies - 1 
+	WHERE ISBN = '978-1849686228'; 
+		
+> Now one of the books has been added to the banned books list. Remove it from the table.
+	A. 
+	DELETE FROM Books 
+	WHERE ISBN = '978-1849686228';
+	
+> Write a command to make a new table to hold spacecrafts. Information should include id, name, year launched, country of origin, a brief description of the mission, orbiting body, if it is currently operating, and its approximate miles from Earth. In addition to the table creation, provide commands that perform the following operations:
+	A. CREATE TABLE spacecrafts
+		(
+			id integer,
+			name text,
+			yearLaunched integer,
+			country text,
+			description text,
+			orbitingBody text,
+			inOperation boolean,
+			milesFromEarth integer
+		);
+	
+> Add three non-Earth-orbiting satellites to the table.
+	A. 
+		INSERT INTO spacecrafts VALUES (1, 'Sputnik', 1963, 'Russia', 'Mission to the Moon', 'Moon', 1, '20000');
+		INSERT INTO spacecrafts VALUES (2, 'Apollo 13', 1980, 'USA', 'Mission to the Moon', 'Moon', 1, '25000');
+		INSERT INTO spacecrafts VALUES (3, 'Mariner 10', 1974, 'USA', 'Mercury Probe', 'Mercury', 1, '25000');
+		
+> Remove one of the satellites from the table since it has just crashed into the planet.
+	A. 
+		DELETE FROM spacecrafts
+		WHERE Id = 1;
+	
+> Edit another satellite because it is no longer operating and change the value to reflect that.
+	A. 
+		UPDATE spacecrafts
+		SET inOperation = 0
+		WHERE id  = 2;
+		
+> Write a command to create a new table to hold the emails in your inbox. This table should include an id, the subject line, the sender, any additional recipients, the body of the email, the timestamp, whether or not you have read the email, and the id of the email chain it's in. Also provide commands that perform the following operations:
+
+	A. CREATE TABLE emails
+		(
+			id integer,
+			subject text,
+			sender text,
+			cc text,
+			body text,
+			timeStamp DateTime,
+			read boolean,
+			chainId integer
+		);
+
+> Add three new emails to the inbox.
+	A. 
+		INSERT INTO emails VALUES (1, 'hello', 'test@yahoo.com', null, 'Test email from test@yahoo.com', '2019-03-09 07:57:45', 1, 1);
+		INSERT INTO emails VALUES (2, 'hello from google', 'test@google.com', null, 'Test email from test@google.com', '2019-03-09 08:02:45', 1, 1);
+		INSERT INTO emails VALUES (3, 'hello again from Live', 'test@live.com', null, 'Test email from test@live.com', '2019-03-09 08:03:45', 1, 1);
+		
+> You deleted one of the emails, so write a command to remove the row from the inbox table.
+	A. 
+		DELETE FROM emails 
+		WHERE id = 1;
+		
+> You started reading an email but just heard a crash in another room. Mark the email as unread before investigating the crash, so you can come back and read it later.
+	A. 
+		UPDATE emails 
+		SET read = 0
+		WHERE id = 2;
