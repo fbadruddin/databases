@@ -1,0 +1,114 @@
+How do you find related data held in two separate data tables?
+
+A. You find related data by joining the tables with their primary and foreign key constraints.
+
+Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+
+A. INNER JOIN - Records that match both table A and B are returned. SELECT e.First, e.Last, d.departmentName FROM Employee e INNER JOIN Department d ON e.departmentId = d.Id
+
+	LEFT OUTER JOIN - All Records matching the table on the left are returned. Non-matching records on the table on the right are returned as NULLs
+		SELECT e.First, e.Last, d.departmentName
+		FROM Employee e LEFT OUTER JOIN Department d
+		ON e.departmentId = d.Id;
+
+	RIGHT OUTER JOIN - All Records matching the table on the right are returned. Non-matching records on the table on the left are returned as NULLs
+		SELECT e.First, e.Last, d.departmentName
+		FROM Employee e RIGHT OUTER JOIN Department d
+		ON e.departmentId = d.Id;
+
+> Define primary key and foreign key. Give a real-world example for each. 
+
+	A. Table Department with a primary key Id (integer) Table Employee with a foreignkey DepartmentId (integer)
+	
+	CREATE TABLE Department (
+	"id"   INTEGER
+		PRIMARY KEY ("id")
+	);
+
+	CREATE TABLE Employee (
+	  "id"   INTEGER,
+	  "DepartmentId" INTEGER
+	  
+	  FOREIGN KEY ("DepartmentId")
+		REFERENCES "Department" ("id")
+	   
+	  PRIMARY KEY ("id")
+	);
+
+
+Define aliasing A. Aliasing is the process of providing a short abbreviation or single letter to simplify referencing tables.
+
+Change this query so that you are using aliasing: A. SELECT p.name, c.salary, c.vacation_days FROM professor p JOIN compensation c ON p.id = c.professor_id;
+
+Why would you use a NATURAL JOIN? Give a real-world example. A. A natural join is structured in such a way that columns having same names in associated tables will be returned only once. You would only use natural joins when
+
+    - The associated tables have one or more pairs of identically named columns.
+    - The columns have the same data type.
+    Example: 
+        Employee Table: Id, first, last, departmentId
+        Department: DepartmentId, Name
+
+    SELECT *
+    FROM Employee
+    NATURAL JOIN Department;
+
+    output will be : employee.id, employee.first, employee.departmentid, department.name (DepartmentId will not be displayed) 
+
+> List all employees and all shifts
+
+	A. SELECT e.id, e.name,ss.shift_id, s.start_time, s.end_time 
+	FROM employees e LEFT JOIN scheduled_shifts ss ON e.id = ss.employee_id 
+	LEFT JOIN shifts s ON ss.shift_id = s.id 
+	ORDER BY e.id, ss.shift_id;
+
+> Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well. 
+
+	A. SELECT v.first_name,v.last_name,v.address, v.phone_number, v.available_to_foster,v.foster_dog_id, d.name AS "dog name" 
+		FROM Volunteers v LEFT JOIN dogs d ON d.id = v.foster_dog_id 
+		ORDER BY v.id;
+
+> The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions. 
+
+	A.	SELECT c.id, c.name, ca.date, ca.adopter_id 
+		FROM cats c JOIN cat_adoptions ca ON c.id = ca.cat_id JOIN adopters a ON ca.adopter_id = a.id 
+		WHERE ca.date >= (CURRENT_DATE - 30) ORDER BY a.id
+
+> Create a list of adopters who have not yet chosen a dog to adopt. 
+
+	A. SELECT * FROM adopters 
+		WHERE id NOT IN ( SELECT adopter_id FROM dog_adoptions );
+
+> Lists of all cats and all dogs who have not been adopted. 
+	A. SELECT DISTINCT c.id AS "cat Id", c.name AS "cat name", c.gender AS "cat gender", c.age AS "cat age", c.intake_date AS "Cat Intake Date" 
+		FROM cats c JOIN cat_adoptions ca ON c.id != ca.cat_id 
+		ORDER BY c.id;
+
+    SELECT DISTINCT
+        d.id AS "dog Id", 
+        d.name AS "dog name", 
+        d.gender AS "dog gender", 
+        d.age AS "dog age", 
+        d.intake_date AS "dog Intake Date" 
+    FROM dogs d JOIN dog_adoptions da ON d.id != da.dog_id
+    ORDER BY d.id;
+	
+> The name of the person who adopted Rosco.
+
+A.	SELECT a.first_name || ' ' ||  a.last_name AS "Person who adopted Rosco"
+	FROM adopters a JOIN dog_adoptions da ON a.id = da.adopter_id
+	AND da.dog_id = 10007;
+
+>	To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making". 
+
+	A. SELECT p.id, p.name, h.rank
+		FROM Patrons p JOIN Holds h ON p.id = h.patron_id
+		JOIN books b ON h.isbn = b.isbn 
+		AND b.isbn = '9136884926'
+		ORDER BY h.rank DESC;
+		
+List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+
+A.	SELECT DISTINCT p.name,b.title 
+    FROM patrons p LEFT JOIN transactions t ON t.patron_id = p.id AND t.checked_in_date IS NULL
+    LEFT JOIN books b ON b.isbn = t.isbn    
+    ORDER BY p.name
